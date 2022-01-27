@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Album } from '../album';
-import { ALBUMS } from '../mock-albums';
+import { AlbumService } from '../album.service';
+// import { ALBUMS } from '../mock-albums';
 
 @Component({
   selector: 'app-albums',
@@ -8,15 +10,34 @@ import { ALBUMS } from '../mock-albums';
   styleUrls: ['./albums.component.scss']
 })
 export class AlbumsComponent implements OnInit {
+  
 
   titlePage: string = "Page princiaple Albums Music";
+  // albums: Album[] = ALBUMS;
+  albums: any;
+  selectedAlbum : Album;  
+  album: any;
+  idAlbum: string;
 
-  albums: Album[] = ALBUMS;
+  constructor(private albumService: AlbumService) { }
 
+  ngOnInit() {
 
-  constructor() { }
+    this.albums = this.albumService.getAlbums();
+    console.log('Vous avez ' + this.albumService.countAlbums() + ' albums');
+      
+  }  
 
-  ngOnInit(): void {
+  onSelect(album: Album) {    
+    this.selectedAlbum = album;
   }
+  
+  playParent(album: Album) {  
+    this.idAlbum = album.id;       
+  }
+  
 
 }
+
+
+
