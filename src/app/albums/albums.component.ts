@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Form } from '@angular/forms';
 
 import { Album } from '../album';
 import { AlbumService } from '../album.service';
-// import { ALBUMS } from '../mock-albums';
+import { ALBUMS } from '../mock-albums';
 
 @Component({
   selector: 'app-albums',
@@ -23,8 +24,9 @@ export class AlbumsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.albums = this.albumService.getAlbums();
-    console.log('Vous avez ' + this.albumService.countAlbums() + ' albums');
+    // this.albums = this.albumService.getAlbums();
+    this.albums = this.albumService.paginate(0, 9);
+    console.log('Vous avez ' + this.albumService.countAlbums() + ' albums');   
       
   }  
 
@@ -33,8 +35,16 @@ export class AlbumsComponent implements OnInit {
   }
   
   playParent(album: Album) {  
-    this.idAlbum = album.id;       
+    this.idAlbum = album.id;      
   }
+
+  search($event: any){
+    if($event) this.albums = $event;
+  }
+
+
+
+
   
 
 }

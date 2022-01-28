@@ -1,5 +1,4 @@
 <nav class="navbar navbar-expand-lg navbar-light">
-  <a class="navbar-brand" href="#">{{ titlePage }}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -17,22 +16,19 @@
               </a>
           </li>
       </ul>
-      <!-- <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form> -->
   </div>
 </nav>
+<app-search (searchAlbums)="search($event)"></app-search>
 <div class="row content">
   <div class="col-sm-4 video">
     <!-- AlbumDetails -->
     <app-album-details [album]="selectedAlbum" (onPlay)="playParent($event)"></app-album-details>    
   </div>
   <!-- .video -->
-  <div class="col-sm-8 music">
-    <!-- <h1>{{ titlePage }}</h1> -->
+  <div class="col-sm-8 music">   
+    <h1>{{ titlePage }}</h1>    
     <!-- Pagination -->
-    <div class="card card-selected" *ngFor="let album of albums">
+    <div class="card card-selected" *ngFor="let album of albums" >
       <div class="card-header">
         Pop <span  *ngIf="idAlbum === album.id" >[play]</span>
       </div>
@@ -53,7 +49,7 @@
           <img class="glyph-icon" src="./assets/png/si-glyph-timer.png" />
           <small> {{album.duration}} min </small>
         </ng-template>
-	<!-- bouton permettant de sélectionner un album -->
+	      <!-- bouton permettant de sélectionner un album -->
         <button (click)="onSelect(album)" class="btn btn-dark">Details</button>        
       </div>
     </div>
