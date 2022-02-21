@@ -19,15 +19,15 @@ export class AlbumsComponent implements OnInit {
   selectedAlbum : Album;  
   album: any;
   idAlbum: string;
+  albumsNumber: any;
 
   constructor(private albumService: AlbumService) { }
 
   ngOnInit() {
-
-    // this.albums = this.albumService.getAlbums();
-    this.albums = this.albumService.paginate(0, 9);
-    console.log('Vous avez ' + this.albumService.countAlbums() + ' albums');   
-      
+    // this.albums = this.albumService.getAlbums(); 
+    this.albumsNumber = this.albumService.countAlbums();
+    this.albums = this.albumService.paginate(0, this.albumsNumber);
+    // console.log('Vous avez ' + this.albumsNumber + ' albums');       
   }  
 
   onSelect(album: Album) {    
@@ -41,12 +41,6 @@ export class AlbumsComponent implements OnInit {
   search($event: any){
     if($event) this.albums = $event;
   }
-
-
-
-
-  
-
 }
 
 
