@@ -3,13 +3,15 @@ import { NgForm } from '@angular/forms';
 import { Album, List } from './album';
 import { AlbumsComponent } from './albums/albums.component';
 import { ALBUMS, ALBUM_LISTS } from './mock-albums';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlbumService {
-  private _albums: Album[] = ALBUMS;
+  private _albums: Album[] = ALBUMS;  
   private _albumList: List [] = ALBUM_LISTS;
+  subjectAlbum = new Subject<Album>(); // pour émettre des informations de l'écoute d'un Album
   constructor() {  
     
 }
@@ -46,6 +48,31 @@ export class AlbumService {
     // et 2/ si on a trouver des titres qui matchaient/t avec la recherche
     return this._albums.filter(album => album.title.match(re));
   }
+
+  // Audio-player 
+  switchOn(album: Album) {
+
+    this._albums.forEach(
+      a => {
+        if (a.ref === album.ref)   album.status = 'on';
+        else
+          a.status = 'off';
+      }
+    );
+
+    this.subjectAlbum.next(album); // Observer puscher les informations
+  }
+
+  // Cette méthode n'a pas besoin d'émettre une information à l'Observable
+  switchOff(album: Album) {
+    this._albums.forEach(
+      a => {
+        a.status = 'off';
+      }
+    );
+  }
+
+
 
 
 }

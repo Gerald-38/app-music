@@ -34,13 +34,22 @@ export class AlbumsComponent implements OnInit {
     this.selectedAlbum = album;
   }
   
-  playParent(album: Album) {  
-    this.idAlbum = album.id;      
+  playParent($event: any) {  
+    this.idAlbum = $event.id; // identifiant unique
+    // méthode dans le service
+    this.albumService.switchOn($event);
+     
   }
 
   search($event: any){
     if($event) this.albums = $event;
   }
+
+    // mise à jour de la pagination
+    paginate(album: { start: number; end: number; }) {
+      this.albums = this.albumService.paginate(album.start, album.end);
+    }
+
 }
 
 

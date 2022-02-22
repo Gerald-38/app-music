@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { AlbumDescriptionComponent } from './album-description/album-description.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaginateComponent } from './paginate/paginate.component';
+import { AudioPlayerComponent } from './audio-player/audio-player.component';
 
 // définission de la constante pour les routes
 const albumsRoutes: Routes = [
@@ -41,6 +42,7 @@ SearchComponent,
 LoginComponent,
 AlbumDescriptionComponent,
 PaginateComponent,
+AudioPlayerComponent,
 ],
 imports: [
 BrowserModule,

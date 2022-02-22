@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AlbumService } from '../album.service';
 
 @Component({
@@ -7,37 +7,66 @@ import { AlbumService } from '../album.service';
   styleUrls: ['./paginate.component.scss']
 })
 export class PaginateComponent implements OnInit {
-  albumsNumber: any;
-  albumsPerPage: number = 3;
-  nbPages: number;
-  pageRange: Array<number> = []; 
 
-  constructor(private albumService: AlbumService) { }
+  @Output() setPaginate: EventEmitter<{ start: number; end: number }> = new EventEmitter();
 
-  ngOnInit() {
-    this.albumsNumber = this.albumService.countAlbums()
-    console.log("Nombre total d'albums : " + this.albumsNumber);
-    this.nbPages=Math.trunc(this.albumsNumber/this.albumsPerPage) + this.albumsNumber%this.albumsPerPage
-    console.log("on affichera " + this.nbPages + " pages");
-    for (let i = 1; i<=this.nbPages; i++) {
-      this.pageRange.push(i);
-    }
-    console.log(this.pageRange)
+  pages: number[] = []; // pages num
+  perPage: number; // number album(s) per page variable d'env
+  total: any = 0; // total albums
+  numberPages = 0;
+  currentPage: number;
 
+  constructor(private aS: AlbumService) {
+    this.perPage = 2;
+   }
+
+  ngOnInit(): void {
+    this.init();
   }
 
-  // TODO : afficher automatiquement le nombre de pages das le template avec ngFor
-  // RECUPERER LE NOMBRE DE PAGES DANS LE COMPONENT PARENT
-  // IDEES :
-    // CREER UN ARRAY AVEC LES DIFFERENTS START ET ENDS
-    // RECUPERER CET ARRAY AVEC LE PARENT
-    // BOUCLER SUR L ARRAY LA METHODE PAGINATE
-    // UTILISER LA METHODE PAGINATE AVEC COMME PARAMETRE DE FIN LE NOMBRE TOTAL DIVISE PAR LE NOMBRE DE PAGE
-    // POUR AFFICHER LES PAGES UTILISER LE CHIFFRE DE LA PAGE EN E MULTIPLIANT POUR DONNER LE BON PARAMETRE D AFFICHAGE DE PAGINATE
+  /**
+   * init paginate
+   * @param page
+   */
+   init(page: number = 1) {
+    this.total = this.aS.countAlbums();
+    this.numberPages = Math.ceil(this.total / this.perPage);
+    this.currentPage = page;
+    this.pages = [];
+    for (let i = 1; i < this.numberPages + 1; i++) {
+      this.pages.push(i);
+    }
+}
 
+selectedPage(page: number) {
+  this.currentPage = page;
+  this.setPaginate.emit(this.paginate(page));
+}
 
+next() {
+  if (this.currentPage >= this.numberPages) {
+    this.currentPage = 1;
+  } else {
+    this.currentPage++;
+  }
+  this.setPaginate.emit(this.paginate(this.currentPage));
+}
 
+previous() {
+  if (this.currentPage === 1) {
+    this.currentPage = this.numberPages;
+  } else {
+    this.currentPage--;
+  }
+  this.setPaginate.emit(this.paginate(this.currentPage));
 
+}
 
+paginate(page: number): { start: number, end: number } {
+  const start = (page - 1) * this.perPage; // 0 2
+  const end = start + this.perPage; // 2 4
+
+  return { start: start, end: end };
+}
 
 }

@@ -5,7 +5,7 @@
     </div>
     <!-- .video -->
     <div class="col-sm-8 music">
-      <app-paginate></app-paginate>
+      <app-paginate (setPaginate)="paginate($event)"></app-paginate>
       <h1>{{ titlePage }}</h1>
       <!-- Pagination -->
       <div class="card" *ngFor="let album of albums">
