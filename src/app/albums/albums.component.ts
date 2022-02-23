@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Form } from '@angular/forms';
+// import { Form } from '@angular/forms';
 
 import { Album } from '../album';
 import { AlbumService } from '../album.service';
-import { ALBUMS } from '../mock-albums';
+// import { ALBUMS } from '../mock-albums';
 
 @Component({
   selector: 'app-albums',
@@ -15,29 +15,40 @@ export class AlbumsComponent implements OnInit {
 
   titlePage: string = "Page princiaple Albums Music";
   // albums: Album[] = ALBUMS;
-  albums: any;
+  albums: Album[];
   selectedAlbum : Album;  
-  album: any;
+  // album: any;
   idAlbum: string;
   albumsNumber: any;
+  count: any;
 
-  constructor(private albumService: AlbumService) { }
+  constructor(private albumService: AlbumService) {
+        // récupération des données depuis Firebase avec la méthode HttpClient
+        console.log(this.albumService.getAlbums().subscribe(
+          albums => console.log('*-*-*-*-*-*-*', albums)          
+        ))
+   }
 
   ngOnInit() {
     // this.albums = this.albumService.getAlbums(); 
-    this.albumsNumber = this.albumService.countAlbums();
-    this.albums = this.albumService.paginate(0, this.albumsNumber);
-    // console.log('Vous avez ' + this.albumsNumber + ' albums');       
+    this.albumService.paginate(0, 5).subscribe(albums => this.albums = albums);
+    this.count = this.albumService.count().subscribe(
+      count => this.count = count
+    ); 
+
+    
+    
   }  
 
   onSelect(album: Album) {    
     this.selectedAlbum = album;
   }
   
-  playParent($event: any) {  
-    this.idAlbum = $event.id; // identifiant unique
+  playParent(album: Album) {  
+    this.idAlbum = album.id; // identifiant unique
     // méthode dans le service
-    this.albumService.switchOn($event);
+    // this.albumService.switchOn($event);
+    this.albumService.switchOn(album);
      
   }
 
@@ -47,7 +58,9 @@ export class AlbumsComponent implements OnInit {
 
     // mise à jour de la pagination
     paginate(album: { start: number; end: number; }) {
-      this.albums = this.albumService.paginate(album.start, album.end);
+      this.albumService.paginate(album.start, album.end).subscribe(
+        albums => this.albums = albums
+      )
     }
 
 }

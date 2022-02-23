@@ -44,17 +44,16 @@ export class AlbumDetailsComponent implements OnInit {
   @Input() album: Album; // propriété [album] liée   
   @Output() onPlay: EventEmitter<Album> = new EventEmitter();  
 
-  albumLists: List[] = ALBUM_LISTS; // récupération de la liste des chasons
+  albumLists: List[]; // récupération de la liste des chasons
   songs: any;
   list: any;
-  isActive: boolean = true;  
-
+  // isActive: boolean = true;  
   
   constructor(private albumService: AlbumService) {    
 
    }
 
-  ngOnInit() {  
+  ngOnInit(): void {  
       
 
   }
@@ -62,25 +61,14 @@ export class AlbumDetailsComponent implements OnInit {
   // dès que quelque chose "rentre" dans le component enfant via une propriété Input
   // ou à l'initialisation du component (une fois) cette méthode est appelée
   ngOnChanges() {
-    this.isActive = !this.isActive;
-   
-    // on vérifie que l'on a bien cliqué sur un album avant de rechercher dans la liste
-    // des chansons.
-    if(this.album){
+
+    if(this.album) {
+      // this.songs = this.albumService.getAlbumList(this.album.id)?.list;
       // récupération de la liste des chansons
-      // this.songs = this.albumLists.find(elem => elem.id === this.album.id)?.list;
-      this.songs = this.albumService.getAlbumList(this.album.id)?.list; 
-      // animation 
-      this.isActive = true;
-      const animate = setInterval( () => {
-        this.isActive = !this.isActive;
-        clearInterval(animate);
-      }
-        , 10);      
-    }
-    
-   
-    
+      this.albumService.getAlbumList(this.album.id).subscribe(
+        songs => this.songs = songs        
+      );      
+    }  
    
   }
   

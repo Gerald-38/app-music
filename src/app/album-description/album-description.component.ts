@@ -14,15 +14,17 @@ album: Album | undefined;
 constructor(
 private route: ActivatedRoute, // récupérez le service route
 private aS: AlbumService // récupérez le service
-
 ) { }
 ngOnInit() {
 // permet de récupérer l'identifiant
 const id = this.route.snapshot.paramMap.get('id');
 console.log(id)
 // TODO récupérez le détail d'un album
-if (id) {
-  this.album = this.aS.getAlbum(id);
+if (id) {  
+  this.aS.getAlbum(id).subscribe(
+    album => this.album = album        
+  )
+ 
 }
 
 }

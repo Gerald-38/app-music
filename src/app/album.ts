@@ -12,6 +12,7 @@ export interface Album {
 }
 
 export interface List {
+    find(arg0: (elem: { id: string; }) => boolean): any;
     id : string;
     list: Array<string>;
 }
