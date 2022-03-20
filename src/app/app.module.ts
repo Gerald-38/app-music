@@ -9,16 +9,22 @@ import { SearchComponent } from './search/search.component';
 import { LoginComponent } from './login/login.component';
 import { AlbumDescriptionComponent } from './album-description/album-description.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PaginateComponent } from './paginate/paginate.component';
+// import { PaginateComponent } from './paginate/paginate.component';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
+
 import { HttpClientModule } from '@angular/common/http';
-
-
+import firebase from 'firebase/compat/app';
+// import * as firebase from 'firebase';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { DashboardComponent } from './dashboard/dashboard.component';
+// import { AppRoutingModule } from './app-routing.module';
+import { GuardService } from './guard.service';
+import { AppRoutingModule } from './app-routing.module';
+import { ShareModule } from './share/share.module';
+import { AdminModule } from './admin/admin.module';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -36,54 +42,60 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+firebase.initializeApp(firebaseConfig);
+
 
 // définission de la constante pour les routes
-const albumsRoutes: Routes = [
-  {
-  path: 'albums',
-  component: AlbumsComponent
-  },
-  {
-  path: '',
-  redirectTo: '/albums',
-  pathMatch: 'full'
-  },
-  {
-  path: 'login',
-  component: LoginComponent
-  },
-  {
-  path: 'album/:id',
-  component: AlbumDescriptionComponent
-  },
-  {
-  path: 'dashboard',
-  component: DashboardComponent
-  },
+// const albumsRoutes: Routes = [
+//   {
+//   path: 'albums',
+//   component: AlbumsComponent
+//   },
+//   {
+//   path: '',
+//   redirectTo: '/albums',
+//   pathMatch: 'full'
+//   },
+//   {
+//   path: 'login',
+//   component: LoginComponent
+//   },
+//   {
+//   path: 'album/:id',
+//   component: AlbumDescriptionComponent
+//   },
+//   {
+//   path: 'dashboard', canActivate: [GuardService],
+//   component: DashboardComponent
+//   },
 
-];
+// ];
   
 @NgModule({
-declarations: [
-AppComponent,
-AlbumsComponent,
-AlbumDetailsComponent,
-SearchComponent,
-LoginComponent,
-AlbumDescriptionComponent,
-PaginateComponent,
-AudioPlayerComponent,
-DashboardComponent,
-],
-imports: [
-BrowserModule,
-FormsModule,
-RouterModule.forRoot(albumsRoutes), // chargement des routes dans l'application
-BrowserAnimationsModule,
-HttpClientModule, // module HttpClient
-],
-providers: [],
-bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    AlbumsComponent,
+    AlbumDetailsComponent,
+    SearchComponent,
+    LoginComponent,
+    AlbumDescriptionComponent,
+    // PaginateComponent,
+    AudioPlayerComponent,
+    DashboardComponent,
+    
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    // AppRoutingModule,
+    // RouterModule.forRoot(albumsRoutes), // chargement des routes dans l'application
+    BrowserAnimationsModule,
+    HttpClientModule, // module HttpClient
+    AppRoutingModule,
+    ShareModule,
+    AdminModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

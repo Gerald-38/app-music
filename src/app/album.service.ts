@@ -9,6 +9,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 // libraire utile pour le traitement de données à installer
 import * as _ from 'lodash';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+
 
   // définition des headers
   const httpOptions = {
@@ -21,7 +24,7 @@ import * as _ from 'lodash';
   providedIn: 'root'
 })
 export class AlbumService {
-  private _albums: Album[] = ALBUMS;  
+  // private _albums: Album[] = ALBUMS;  
   private _albumList: any = ALBUM_LISTS;  
   subjectAlbum = new Subject<Album>(); // pour émettre des informations de l'écoute d'un Album
 
@@ -29,7 +32,7 @@ export class AlbumService {
 private albumsUrl = 'https://app-music-a14d3-default-rtdb.europe-west1.firebasedatabase.app/albums';
 private albumListsUrl = 'https://app-music-a14d3-default-rtdb.europe-west1.firebasedatabase.app/albumLists';
   
-
+sendCurrentNumberPage = new Subject<number>(); // pour mettre à jour la pagination 
   
   constructor(private http: HttpClient) { } 
  
@@ -79,7 +82,7 @@ private albumListsUrl = 'https://app-music-a14d3-default-rtdb.europe-west1.fireb
     // Préparation des données avec _.values pour avoir un format exploitable dans l'applimap(albums => _.values(albums)),
     // Ordonnez les albums par ordre de durées décroissantes
     map(albums => {
-      return this._albums.sort(
+      return albums.sort(
         (a, b) => { return b.duration - a.duration }
         );
       })
@@ -112,10 +115,18 @@ private albumListsUrl = 'https://app-music-a14d3-default-rtdb.europe-west1.fireb
     );
   }
 
+  currentPage(page: number) {
+    return this.sendCurrentNumberPage.next(page);
+  }
+
   // Audio-player 
   switchOn(album: Album): void {
     album.status = 'on';
-    this.http.put<void>(this.albumsUrl + `/${album.id}/.json`, album).subscribe(() => {
+    // le code ici s'exécute car souscription 
+    this.http.put<void>(this.albumsUrl + `/${album.id}/.json`, album).subscribe(
+      e => e,
+      error => console.warn(error),
+      () => {
         this.subjectAlbum.next(album);
       }
     );
@@ -126,7 +137,6 @@ private albumListsUrl = 'https://app-music-a14d3-default-rtdb.europe-west1.fireb
     this.http.put<void>(this.albumsUrl + `/${album.id}/.json`, album).subscribe(() => {
     });
   }
-
 
 
 

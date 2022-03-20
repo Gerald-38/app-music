@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { interval, Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators'; // opérateurs
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent {
   count: Observable<number>;
 
  
-  constructor() {
+  constructor(public auth: AuthService) {
 
     // interval envoi toutes les secondes un compteur 1, 2, ...
     this.count = interval(1000);

@@ -1,81 +1,35 @@
-<!-- <div class="container-fuild principal">
-  <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand" href="#">{{ title }}</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-          aria-expanded="false" aria-label="Toggle navigation">
+<div class="container-fuild principal">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">{{title}}</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                  <a class="nav-link" routerLink="/albums">Home</a>
-              </li>
-              <li class="nav-item active">
-                  <a class="nav-link" routerLink="/login" routerLinkActive="active">Se connecter</a>
-              </li>
-              <li>
-                <p>Vous êtes connecté depuis {{ secondes }} secondes !</p>
-              </li>
-          </ul>
-      </div>
-  </nav>
-</div>
-<router-outlet></router-outlet> -->
-
-<!-- <div class="container-fuild principal">
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-      <a class="nav-link" routerLink="/login" routerLinkActive="active">Se connecter
-      </a>
-      </li>
-    </ul>
-  </nav>
-  <router-outlet></router-outlet>
-</div> -->
-<div class="container-fuild principal">    
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand">{{ title }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" routerLink="/albums">Home
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" routerLink="/login" routerLinkActive="active">
-                        Se connecter
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
-                        Dashboard
-                    </a>
-                </li>
-                <!-- else du if/else avec une référence elseAuth-->
-                <ng-template>
-                    <li class="nav-item active">
-                        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link">
-                            logout
-                        </a>
-                    </li>
-                </ng-template>
-            </ul>
-            <ul>  
-                <li>time :  {{ time }}</li>
-            </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li *ngIf="auth.authenticated()==true" class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+            </li>
+            <li *ngIf="auth.authenticated()==false" class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#" routerLink="/login" routerLinkActive="active">Se connecter</a>
+            </li>
+            <li *ngIf="auth.authenticated()==true" class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#" routerLink="/admin" routerLinkActive="active">Admin</a>
+            </li>
+            <li *ngIf="auth.authenticated()==true"  class="nav-item">
+              <a class="nav-link disconnect" aria-current="page" href="#" (click)="auth.logout()">logout</a>
+            </li>
+          </ul>
+          <ul>
+            <li>time : {{ time }} </li>
+        </ul>
         </div>
+      </div>
     </nav>
-    <!-- à la place du sélecteur des albums -->
     <app-audio-player></app-audio-player>
-    <router-outlet></router-outlet>
   </div>
+  <router-outlet></router-outlet>
+  
