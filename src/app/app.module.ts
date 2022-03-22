@@ -14,6 +14,11 @@ import { AudioPlayerComponent } from './audio-player/audio-player.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import firebase from 'firebase/compat/app';
+import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonModule} from '@angular/material/button';
+
 // import * as firebase from 'firebase';
 
 // Import the functions you need from the SDKs you need
@@ -94,6 +99,10 @@ firebase.initializeApp(firebaseConfig);
     AppRoutingModule,
     ShareModule,
     AdminModule,
+    MatInputModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

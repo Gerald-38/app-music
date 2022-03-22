@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Album } from 'src/app/album';
 import { AlbumService } from 'src/app/album.service';
 import { AdminModule } from '../admin.module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-album',
@@ -14,8 +15,10 @@ import { AdminModule } from '../admin.module';
 
 export class AlbumComponent implements OnInit {
   albums: Album[];
+  selectedAlbum: Album;
+  message: string;
 
-  constructor(private albumService: AlbumService) { }
+  constructor(private albumService: AlbumService, private router: Router) { }
 
   // ngOnInit(): void {
   //   this.albumService.getAlbums().subscribe(
@@ -33,5 +36,18 @@ export class AlbumComponent implements OnInit {
     );
   }
 
+  onDelete(album: Album) {
+    if (confirm('Voulez-vous vraiment supprimer cette ressource ?')) {
+      let title: string = album.title;
+      this.message = `L'album ${title} a bien été supprimé`;
+      console.log(album, 'DELETE ALBUM ALBUM')
+
+      this.albumService.deleteAlbum(album).subscribe(
+        () => {
+          this.router.navigate(['/admin']); 
+        }
+      )
+    }
+  }
 
 }

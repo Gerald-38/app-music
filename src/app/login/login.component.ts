@@ -35,6 +35,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   messageError: string = '';
+  hide = true;
 
   constructor(
     private authS: AuthService,
@@ -46,6 +47,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  
 
   onSubmit(form: NgForm): void {
 

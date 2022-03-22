@@ -12,6 +12,7 @@ styleUrls: ['./search.component.scss']
 
 
 export class SearchComponent implements OnInit {
+  value = 'Clear me';
 
   @Output() searchAlbums: EventEmitter<Album[]> = new EventEmitter(); // émission des données vers le parent
 

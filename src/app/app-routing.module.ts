@@ -18,6 +18,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { GuardService } from './guard.service';
 import { AlbumComponent } from './admin/album/album.component';
 import { CommonModule } from '@angular/common';
+import { UpdateAlbumComponent } from './admin/update-album/update-album.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
     path: 'admin',
     component: AlbumComponent
   },
+  // {
+  //   path: 'update/:id',
+  //   component: UpdateAlbumComponent
+  // },
 ];
 
 @NgModule({

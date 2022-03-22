@@ -75,7 +75,7 @@ sendCurrentNumberPage = new Subject<number>(); // pour mettre à jour la paginat
     return this.http.get<Album>(this.albumsUrl + `/${id}/.json`).pipe(
     map(album => album) // JSON
     );
-    }
+  }
 
   getAlbums(): Observable<Album[]> {
     return this.http.get<Album[]>(this.albumsUrl + '/.json', httpOptions).pipe(
@@ -136,6 +136,18 @@ sendCurrentNumberPage = new Subject<number>(); // pour mettre à jour la paginat
     album.status = 'off';
     this.http.put<void>(this.albumsUrl + `/${album.id}/.json`, album).subscribe(() => {
     });
+  }
+
+  addAlbum(album: Album): Observable<void> {
+    return this.http.post<void>(this.albumsUrl + '/.json', album);
+  }
+
+  updateAlbum(album: Album): Observable<void> {
+    return this.http.put<void>(this.albumsUrl + `/${album.id}/.json`, album);
+  }
+
+  deleteAlbum(album: Album): Observable<void> {
+    return this.http.delete<void>(this.albumsUrl + `/${album.id}/.json`);
   }
 
 
